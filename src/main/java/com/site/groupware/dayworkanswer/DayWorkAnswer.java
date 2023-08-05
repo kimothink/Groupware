@@ -2,7 +2,7 @@ package com.site.groupware.dayworkanswer;
 
 import java.time.LocalDateTime;
 
-import com.site.groupware.daywrok.DayWrok;
+import com.site.groupware.daywork.DayWork;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,5 +28,5 @@ public class DayWorkAnswer {
     private LocalDateTime createDate;
     
     @ManyToOne
-    private DayWrok daywork;
+    private DayWork daywork;
 }

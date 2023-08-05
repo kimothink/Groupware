@@ -1,4 +1,4 @@
-package com.site.groupware.daywrok;
+package com.site.groupware.daywork;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class DayWrok {
+public class DayWork {
 
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
