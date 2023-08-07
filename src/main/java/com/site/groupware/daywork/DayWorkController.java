@@ -26,8 +26,8 @@ public class DayWorkController {
     
     @GetMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
-    	 DayWork daywork = this.dayworkService.getDayWork(id);
-         model.addAttribute("daywork", daywork);
+    	DayWork daywork = this.dayworkService.getDayWork(id);
+        model.addAttribute("daywork", daywork);
     	return "daywork_detail";
     }
 }

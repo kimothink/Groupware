@@ -1,6 +1,13 @@
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+
 <h1 th:text="${daywork.subject}"></h1>
 <div th:text="${daywork.content}"></div>
-
+<h5 th:text="|${#lists.size(daywork.dayworkanswerList)}개의 답변이 있습니다.|"></h5>
+<div>
+    <ul>
+        <li th:each="answer : ${daywork.dayworkanswerList}" th:text="${dayworkanswerList.content}"></li>
+    </ul>
+</div>
 <form th:action="@{|/dayworkanswer/create/${daywork.id}|}" method="post">
     <textarea name="content" id="content" rows="15"></textarea>
     <input type="submit" value="답변등록">
