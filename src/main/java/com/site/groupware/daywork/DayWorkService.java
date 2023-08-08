@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.site.groupware.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -25,4 +26,11 @@ public class DayWorkService {
         }
     }
 	
+	public void create(String subject, String content) {
+        DayWork daywork = new DayWork();
+        daywork.setSubject(subject);
+        daywork.setContent(content);
+        daywork.setCreateDate(LocalDateTime.now());
+        this.dayworkRepository.save(daywork);
+    }
 }
