@@ -26,7 +26,7 @@ public class DayWorkAnswerController {
         // TODO: 답변을 저장한다. 
         if (bindingResult.hasErrors()) {
             model.addAttribute("daywork", daywork);
-            return "question_detail";
+            return "daywork_detail";
         }
         this.dayworkanswerService.create(daywork, dayworkanswerForm.getContent());
 

@@ -19,38 +19,38 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class DayWorkController {
-	 
-    private final DayWorkService dayworkService;
-	
-    @GetMapping("/list")
+
+	private final DayWorkService dayworkService;
+
+	@GetMapping("/list")
 	public String list(Model model) {
 		List<DayWork> dayworkList = this.dayworkService.getList();
-		model.addAttribute("dayworkList",dayworkList);
-	    return "daywork_list";
+		model.addAttribute("dayworkList", dayworkList);
+		return "daywork_list";
 	}
-    
-    @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id , DayWorkAnswerForm dayworkanswerForm ) {
-    	DayWork daywork = this.dayworkService.getDayWork(id);
-        model.addAttribute("daywork", daywork);
-    	return "daywork_detail";
-    }
-    
-    @GetMapping("/create")
-    public String dayworkCreate(DayWorkForm dayworkForm) {
-        return "daywork_form";
-    }
-    
-    @PostMapping("/create")
-    public String dayworkCreate(@Valid DayWorkForm dayworkForm, BindingResult bindingResult) {
-       
-    	 if (bindingResult.hasErrors()) {
-             return "daywork_form";
-         }
-    	 
-    	// TODO 질문을 저장한다.
-        this.dayworkService.create(dayworkForm.getSubject(), dayworkForm.getContent());
 
-        return "redirect:/daywork/list"; // 질문 저장후 질문목록으로 이동
-    }
+	@GetMapping(value = "/detail/{id}")
+	public String detail(Model model, @PathVariable("id") Integer id, DayWorkAnswerForm dayworkanswerForm) {
+		DayWork daywork = this.dayworkService.getDayWork(id);
+		model.addAttribute("daywork", daywork);
+		return "daywork_detail";
+	}
+
+	@GetMapping("/create")
+	public String dayworkCreate(DayWorkForm dayworkForm) {
+		return "daywork_form";
+	}
+
+	@PostMapping("/create")
+	public String dayworkCreate(@Valid DayWorkForm dayworkForm, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			return "daywork_form";
+		}
+
+		// TODO 질문을 저장한다.
+		this.dayworkService.create(dayworkForm.getSubject(), dayworkForm.getContent());
+
+		return "redirect:/daywork/list"; // 질문 저장후 질문목록으로 이동
+	}
 }
