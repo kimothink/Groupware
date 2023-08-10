@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
     <h5 class="my-3 border-bottom pb-2">업무등록</h5>
-    <form th:action="@{/daywork/create}" th:object="${dayworkForm}" method="post">
+    <form th:action="@{/daywork/create}" th:object="${dayWorkForm}" method="post">
   		
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>
