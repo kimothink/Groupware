@@ -19,7 +19,7 @@
                         th:text="${#lists.size(daywork.dayworkanswerList)}">
                 </span>
             </td>
-            <td><span th:if="${question.author != null}" th:text="${question.author.username}"></span></td>
+            <td><span th:if="${daywork.author != null}" th:text="${daywork.author.username}"></span></td>
             
             <td th:text="${#temporals.format(daywork.createDate, 'yyyy-MM-dd HH:mm')}"></td>
         </tr>

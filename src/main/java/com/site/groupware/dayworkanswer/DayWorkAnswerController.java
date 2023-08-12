@@ -26,7 +26,9 @@ public class DayWorkAnswerController {
 
     @PreAuthorize("isAuthenticated()")
 	@PostMapping("/create/{id}")
-    public String createAnswer(Model model, @PathVariable("id") Integer id, @Valid DayWorkAnswerForm dayworkanswerForm, BindingResult bindingResult,Principal principal) {
+    public String createAnswer(Model model, @PathVariable("id") Integer id,
+    		@Valid DayWorkAnswerForm dayworkanswerForm, BindingResult bindingResult,
+    		Principal principal) {
         DayWork daywork = this.dayworkService.getDayWork(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
         

@@ -1,7 +1,6 @@
 package com.site.groupware.user;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import com.site.groupware.DataNotFoundException;

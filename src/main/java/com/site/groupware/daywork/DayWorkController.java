@@ -1,6 +1,5 @@
 package com.site.groupware.daywork;
 
-import java.util.List;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 import com.site.groupware.dayworkanswer.DayWorkAnswerForm;
@@ -43,6 +41,7 @@ public class DayWorkController {
 		return "daywork_detail";
 	}
 
+    @PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
 	public String dayworkCreate(DayWorkForm dayworkForm) {
 		return "daywork_form";
