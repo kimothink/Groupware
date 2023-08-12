@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 import com.site.groupware.dayworkanswer.DayWorkAnswerForm;
+import com.site.groupware.user.SiteUser;
+import com.site.groupware.user.UserService;
+import java.security.Principal;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class DayWorkController {
 
 	private final DayWorkService dayworkService;
+    private final UserService userService;
 
 	@GetMapping("/list")
 	public String list(Model model,@RequestParam(value="page", defaultValue="0") int page)
@@ -42,16 +47,17 @@ public class DayWorkController {
 	public String dayworkCreate(DayWorkForm dayworkForm) {
 		return "daywork_form";
 	}
-
+	
+    @PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
-	public String dayworkCreate(@Valid DayWorkForm dayworkForm, BindingResult bindingResult) {
+	public String dayworkCreate(@Valid DayWorkForm dayworkForm, BindingResult bindingResult, Principal principal) {
 
 		if (bindingResult.hasErrors()) {
 			return "daywork_form";
 		}
-
+	    SiteUser siteUser = this.userService.getUser(principal.getName());
 		// TODO 질문을 저장한다.
-		this.dayworkService.create(dayworkForm.getSubject(), dayworkForm.getContent());
+		this.dayworkService.create(dayworkForm.getSubject(), dayworkForm.getContent(),siteUser);
 
 		return "redirect:/daywork/list"; // 질문 저장후 질문목록으로 이동
 	}

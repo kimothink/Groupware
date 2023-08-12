@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.site.groupware.DataNotFoundException;
+import com.site.groupware.user.SiteUser;
+
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,11 +41,13 @@ public class DayWorkService {
         return this.dayworkRepository.findAll(pageable);
     }
 	
-	public void create(String subject, String content) {
+	public void create(String subject, String content,SiteUser user) {
         DayWork daywork = new DayWork();
         daywork.setSubject(subject);
         daywork.setContent(content);
         daywork.setCreateDate(LocalDateTime.now());
+        daywork.setAuthor(user);
+
         this.dayworkRepository.save(daywork);
     }
 }

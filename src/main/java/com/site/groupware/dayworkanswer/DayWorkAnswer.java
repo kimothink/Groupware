@@ -3,6 +3,7 @@ package com.site.groupware.dayworkanswer;
 import java.time.LocalDateTime;
 
 import com.site.groupware.daywork.DayWork;
+import com.site.groupware.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,4 +30,7 @@ public class DayWorkAnswer {
     
     @ManyToOne
     private DayWork daywork;
+    
+    @ManyToOne
+    private SiteUser author;
 }

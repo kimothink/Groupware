@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.site.groupware.dayworkanswer.DayWorkAnswer;
-
+import com.site.groupware.user.SiteUser;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,4 +36,7 @@ public class DayWork {
 	  
 	  @OneToMany(mappedBy = "daywork", cascade = CascadeType.REMOVE)
 	  private List<DayWorkAnswer> dayworkanswerList;
+	  
+	  @ManyToOne
+	  private SiteUser author;
 }
