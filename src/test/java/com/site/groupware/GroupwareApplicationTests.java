@@ -7,27 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.site.groupware.daywork.DayWork;
+import com.site.groupware.daywork.DayWorkService;
 import com.site.groupware.daywork.DayWrokRepository;
 
 @SpringBootTest
 class GroupwareApplicationTests {
 
 	@Autowired
-    private DayWrokRepository dayworkRepository;
-
+    private DayWorkService dayworkService;
+	
+	
     @Test
     void testJpa() {        
-    	DayWork q1 = new DayWork();
-        q1.setSubject("2023-08-04");
-        q1.setContent("농정보조시스템 개발 ");
-        q1.setCreateDate(LocalDateTime.now());
-        this.dayworkRepository.save(q1);  // 첫번째 질문 저장
-
-        DayWork q2 = new DayWork();
-        q2.setSubject("2023-08-05");
-        q2.setContent("농정 보조시스템 개발");
-        q2.setCreateDate(LocalDateTime.now());
-        this.dayworkRepository.save(q2);  // 두번째 질문 저장
+    	 for (int i = 1; i <= 300; i++) {
+             String subject = String.format("테스트 데이터입니다:[%03d]", i);
+             String content = "내용무";
+             this.dayworkService.create(subject, content);
+         }
     }
 	
 	

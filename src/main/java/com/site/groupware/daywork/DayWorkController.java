@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
 import com.site.groupware.dayworkanswer.DayWorkAnswerForm;
 
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,10 @@ public class DayWorkController {
 	private final DayWorkService dayworkService;
 
 	@GetMapping("/list")
-	public String list(Model model) {
-		List<DayWork> dayworkList = this.dayworkService.getList();
-		model.addAttribute("dayworkList", dayworkList);
+	public String list(Model model,@RequestParam(value="page", defaultValue="0") int page)
+	{
+		Page<DayWork> paging = this.dayworkService.getList(page);
+	    model.addAttribute("paging", paging);
 		return "daywork_list";
 	}
 
