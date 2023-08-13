@@ -28,6 +28,8 @@ public class DayWorkAnswer {
 
     private LocalDateTime createDate;
     
+    private LocalDateTime modifyDate;
+
     @ManyToOne
     private DayWork daywork;
     

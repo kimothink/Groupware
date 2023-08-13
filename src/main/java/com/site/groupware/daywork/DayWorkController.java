@@ -15,7 +15,8 @@ import com.site.groupware.user.SiteUser;
 import com.site.groupware.user.UserService;
 import java.security.Principal;
 import org.springframework.security.access.prepost.PreAuthorize;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/daywork")
@@ -24,13 +25,12 @@ import lombok.RequiredArgsConstructor;
 public class DayWorkController {
 
 	private final DayWorkService dayworkService;
-    private final UserService userService;
+	private final UserService userService;
 
 	@GetMapping("/list")
-	public String list(Model model,@RequestParam(value="page", defaultValue="0") int page)
-	{
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 		Page<DayWork> paging = this.dayworkService.getList(page);
-	    model.addAttribute("paging", paging);
+		model.addAttribute("paging", paging);
 		return "daywork_list";
 	}
 
@@ -41,25 +41,64 @@ public class DayWorkController {
 		return "daywork_detail";
 	}
 
-    @PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
-	public String dayworkCreate(DayWorkForm dayworkForm) {
-  
+	public String dayworkCreate(Model model, DayWorkForm dayworkForm) {
+
+		model.addAttribute("dayWorkForm", dayworkForm);
 		return "daywork_form";
 	}
-	
-    @PreAuthorize("isAuthenticated()")
+
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/create")
 	public String dayworkCreate(@Valid DayWorkForm dayworkForm, BindingResult bindingResult, Principal principal) {
 
-    	
 		if (bindingResult.hasErrors()) {
 			return "daywork_form";
 		}
-	    SiteUser siteUser = this.userService.getUser(principal.getName());
+		SiteUser siteUser = this.userService.getUser(principal.getName());
 		// TODO 질문을 저장한다.
-		this.dayworkService.create(dayworkForm.getSubject(), dayworkForm.getContent(),siteUser);
+		this.dayworkService.create(dayworkForm.getSubject(), dayworkForm.getContent(), siteUser);
 
 		return "redirect:/daywork/list"; // 질문 저장후 질문목록으로 이동
 	}
+
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify/{id}")
+	public String questionModify(DayWorkForm dayworkForm, @PathVariable("id") Integer id, Principal principal) {
+		DayWork question = this.dayworkService.getDayWork(id);
+		if (!question.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+		}
+		dayworkForm.setSubject(question.getSubject());
+		dayworkForm.setContent(question.getContent());
+		return "daywork_form";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String questionModify(@Valid DayWorkForm dayworkForm, BindingResult bindingResult, 
+            Principal principal, @PathVariable("id") Integer id) {
+        if (bindingResult.hasErrors()) {
+            return "question_form";
+        }
+        DayWork daywork = this.dayworkService.getDayWork(id);
+        if (!daywork.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        this.dayworkService.modify(daywork, dayworkForm.getSubject(), dayworkForm.getContent());
+        return String.format("redirect:/daywork/detail/%s", id);
+    }
+	
+	
+	@PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
+		DayWork daywork = this.dayworkService.getDayWork(id);
+        if (!daywork.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        this.dayworkService.delete(daywork);
+        return "redirect:/";
+    }
 }

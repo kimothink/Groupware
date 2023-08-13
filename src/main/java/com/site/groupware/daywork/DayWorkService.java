@@ -26,9 +26,9 @@ public class DayWorkService {
 	}
 	
 	public DayWork getDayWork(Integer id) {  
-        Optional<DayWork> question = this.dayworkRepository.findById(id);
-        if (question.isPresent()) {
-            return question.get();
+        Optional<DayWork> daywork = this.dayworkRepository.findById(id);
+        if (daywork.isPresent()) {
+            return daywork.get();
         } else {
             throw new DataNotFoundException("question not found");
         }
@@ -49,5 +49,16 @@ public class DayWorkService {
         daywork.setAuthor(user);
 
         this.dayworkRepository.save(daywork);
+    }
+	
+	public void modify(DayWork daywork, String subject, String content) {
+		daywork.setSubject(subject);
+		daywork.setContent(content);
+		daywork.setModifyDate(LocalDateTime.now());
+        this.dayworkRepository.save(daywork);
+    }
+	
+	public void delete(DayWork daywork) {
+        this.dayworkRepository.delete(daywork);
     }
 }

@@ -26,17 +26,19 @@ public class DayWork {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Integer id;
 
-	  @Column(length = 200)
-	  private String subject;
+	 @Column(length = 200)
+	 private String subject;
 
-	  @Column(columnDefinition = "TEXT")
-	  private String content;
+	 @Column(columnDefinition = "TEXT")
+	 private String content;
 
-	  private LocalDateTime createDate;
+	 private LocalDateTime createDate;
 	  
-	  @OneToMany(mappedBy = "daywork", cascade = CascadeType.REMOVE)
-	  private List<DayWorkAnswer> dayworkanswerList;
+	 private LocalDateTime modifyDate;
+
+	 @OneToMany(mappedBy = "daywork", cascade = CascadeType.REMOVE)
+	 private List<DayWorkAnswer> dayworkanswerList;
 	  
-	  @ManyToOne
-	  private SiteUser author;
+	 @ManyToOne
+	 private SiteUser author;
 }
