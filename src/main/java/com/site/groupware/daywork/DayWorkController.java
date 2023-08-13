@@ -44,6 +44,7 @@ public class DayWorkController {
     @PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
 	public String dayworkCreate(DayWorkForm dayworkForm) {
+  
 		return "daywork_form";
 	}
 	
@@ -51,6 +52,7 @@ public class DayWorkController {
 	@PostMapping("/create")
 	public String dayworkCreate(@Valid DayWorkForm dayworkForm, BindingResult bindingResult, Principal principal) {
 
+    	
 		if (bindingResult.hasErrors()) {
 			return "daywork_form";
 		}
