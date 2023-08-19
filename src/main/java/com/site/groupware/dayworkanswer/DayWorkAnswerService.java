@@ -15,13 +15,15 @@ public class DayWorkAnswerService {
 	
 	private final DayWorkAnswerRepository dayworkanswerRepository;
 	
-	public void create(DayWork daywork, String content, SiteUser author) {
+	public DayWorkAnswer create(DayWork daywork, String content, SiteUser author) {
 		DayWorkAnswer dayworkanswer = new DayWorkAnswer();
 		dayworkanswer.setContent(content);
 		dayworkanswer.setCreateDate(LocalDateTime.now());
 		dayworkanswer.setDaywork(daywork);
 		dayworkanswer.setAuthor(author);
         this.dayworkanswerRepository.save(dayworkanswer);
+        
+        return dayworkanswer;
     }
 	
 	

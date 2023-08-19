@@ -42,9 +42,10 @@ public class DayWorkAnswerController {
             model.addAttribute("daywork", daywork);
             return "daywork_detail";
         }
-        this.dayworkanswerService.create(daywork, dayworkanswerForm.getContent(),siteUser);
-
-        return String.format("redirect:/daywork/detail/%s", id);
+        DayWorkAnswer answer = this.dayworkanswerService.create(daywork, 
+        		dayworkanswerForm.getContent(), siteUser);
+        return String.format("redirect:/daywork/detail/%s#answer_%s", 
+                answer.getDaywork().getId(), answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -70,8 +71,8 @@ public class DayWorkAnswerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.dayworkanswerService.modify(answer, answerForm.getContent());
-        return String.format("redirect:/daywork/detail/%s", answer.getDaywork().getId());
-    }
+        return String.format("redirect:/daywork/detail/%s#answer_%s", 
+                answer.getDaywork().getId(), answer.getId());    }
     
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
