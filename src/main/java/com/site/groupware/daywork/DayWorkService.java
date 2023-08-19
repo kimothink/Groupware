@@ -1,5 +1,6 @@
 package com.site.groupware.daywork;
 
+import com.site.groupware.dayworkanswer.DayWorkAnswer;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,13 @@ import com.site.groupware.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.domain.Sort;
 
 @RequiredArgsConstructor
