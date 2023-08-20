@@ -41,11 +41,12 @@ public class DayWorkService {
         }
     }
 	
-	public Page<DayWork> getList(int page) {
+	public Page<DayWork> getList(int page,  String kw) {
 		List<Sort.Order> sorts = new ArrayList<>();
 	    sorts.add(Sort.Order.desc("createDate"));
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return this.dayworkRepository.findAll(pageable);
+        Specification<DayWork> spec = search(kw);
+        return this.dayworkRepository.findAll(spec,pageable);
     }
 	
 	public void create(String subject, String content,SiteUser user) {
@@ -68,4 +69,22 @@ public class DayWorkService {
 	public void delete(DayWork daywork) {
         this.dayworkRepository.delete(daywork);
     }
+	
+	 private Specification<DayWork> search(String kw) {
+	        return new Specification<>() {
+	            private static final long serialVersionUID = 1L;
+	            @Override
+	            public Predicate toPredicate(Root<DayWork> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+	                query.distinct(true);  // 중복을 제거 
+	                Join<DayWork, SiteUser> u1 = q.join("author", JoinType.LEFT);
+	                Join<DayWork, DayWorkAnswer> a = q.join("dayworkanswerList", JoinType.LEFT);
+	                Join<DayWork, SiteUser> u2 = a.join("author", JoinType.LEFT);
+	                return cb.or(cb.like(q.get("subject"), "%" + kw + "%"), // 제목 
+	                        cb.like(q.get("content"), "%" + kw + "%"),      // 내용 
+	                        cb.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자 
+	                        cb.like(a.get("content"), "%" + kw + "%"),      // 답변 내용 
+	                        cb.like(u2.get("username"), "%" + kw + "%"));   // 답변 작성자 
+	            }
+	        };
+	    }
 }
