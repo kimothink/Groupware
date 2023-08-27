@@ -14,6 +14,8 @@ import com.site.groupware.dayworkanswer.DayWorkAnswerForm;
 import com.site.groupware.user.SiteUser;
 import com.site.groupware.user.UserService;
 import java.security.Principal;
+import java.time.LocalDate;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,7 +49,8 @@ public class DayWorkController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
 	public String dayworkCreate(Model model, DayWorkForm dayworkForm) {
-
+		LocalDate now = LocalDate.now();
+		dayworkForm.setSubject(now.toString());
 		model.addAttribute("dayWorkForm", dayworkForm);
 		return "daywork_form";
 	}
