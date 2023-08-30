@@ -71,19 +71,19 @@ public class DayWorkController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{id}")
-	public String questionModify(DayWorkForm dayworkForm, @PathVariable("id") Integer id, Principal principal) {
-		DayWork question = this.dayworkService.getDayWork(id);
-		if (!question.getAuthor().getUsername().equals(principal.getName())) {
+	public String dayworkModify(DayWorkForm dayworkForm, @PathVariable("id") Integer id, Principal principal) {
+		DayWork daywork = this.dayworkService.getDayWork(id);
+		if (!daywork.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-		dayworkForm.setSubject(question.getSubject());
-		dayworkForm.setContent(question.getContent());
+		dayworkForm.setSubject(daywork.getSubject());
+		dayworkForm.setContent(daywork.getContent());
 		return "daywork_form";
 	}
 	
 	@PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String questionModify(@Valid DayWorkForm dayworkForm, BindingResult bindingResult, 
+    public String dayworkModify(@Valid DayWorkForm dayworkForm, BindingResult bindingResult, 
             Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "question_form";
@@ -99,7 +99,7 @@ public class DayWorkController {
 	
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
+    public String dayworkDelete(Principal principal, @PathVariable("id") Integer id) {
 		DayWork daywork = this.dayworkService.getDayWork(id);
         if (!daywork.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
